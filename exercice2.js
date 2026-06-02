@@ -1,9 +1,35 @@
 let listeCourses = [];
 
 localStorage.setItem("listeCourses", JSON.stringify(listeCourses));
-const recuperation = localStorage.getItem("liste");
+JSON.parse(localStorage.getItem("listeCourses"));
+
+const inptArticle = document.querySelector(".form-input");
+const btnUpdate = document.querySelector(".update-btn");
+const btnDelete = document.querySelector(".delete-btn");
+const btnResearch = document.querySelector(".research-btn");
+
+btnUpdate.addEventListener("click", (e) => {
+  e.preventDefault();
+  ajouterArticle(inptArticle.value);
+  inptArticle.value = "";
+  console.log(listeCourses);
+});
+
+btnDelete.addEventListener("click", (e) => {
+  e.preventDefault();
+  supprimerArticle(inptArticle.value);
+  inptArticle.value = "";
+  console.log(listeCourses);
+});
+
+btnResearch.addEventListener("click", (e) => {
+  e.preventDefault();
+  console.log(rechercherArticle(inptArticle.value));
+  inptArticle.value = "";
+});
 
 function ajouterArticle(nom) {
+  localStorage.setItem("listeCourses", JSON.stringify(listeCourses));
   let nomEnMinuscule = nom.toLowerCase().trim();
   if (listeCourses.includes(nomEnMinuscule) === true) {
     console.log(`${nom} est deja dans le tableau!!!`);
@@ -14,6 +40,7 @@ function ajouterArticle(nom) {
 }
 
 function supprimerArticle(nom) {
+  localStorage.setItem("listeCourses", JSON.stringify(listeCourses));
   const positionDansListe = listeCourses.indexOf(nom.toLowerCase().trim());
   if (positionDansListe === -1) {
     console.log(`${nom} n'est pas dans le tableau!!!`);
@@ -31,17 +58,6 @@ function afficherArticle() {
 
 function rechercherArticle(terme) {
   return listeCourses.filter((article) =>
-    article.includes(terme.toLowerCase())
+    article.includes(terme.toLowerCase().trim()),
   );
 }
-ajouterArticle("Jus");
-ajouterArticle("Amnde");
-ajouterArticle("Muscade");
-ajouterArticle("Pate");
-ajouterArticle("Epice");
-ajouterArticle("Conserve");
-ajouterArticle("Huile");
-ajouterArticle("Loc");
-console.log(listeCourses);
-afficherArticle();
-console.log(rechercherArticle('mus'))
